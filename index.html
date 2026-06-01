@@ -543,18 +543,22 @@ const STOCKS=[
 ["6837","達方"],["6839","大立光"],["6840","台積電"],
 ];
 
+// ── 本地名稱查詢（優先用 STOCKS 中文名）──
+function getLocalName(symbol) {
+  const code = symbol.replace('.TW','').replace('.TWO','');
+  const found = STOCKS.find(([c]) => c === code);
+  return found ? found[1] : null;
+}
+
 // ── 搜尋自動完成 ──
 let acIndex = -1;
 let acVisible = false;
 
 function acFilter(q) {
   if (!q) return [];
-  const lq = q.toLowerCase();
-  // 數字開頭：比對代號前綴
   if (/^\d/.test(q)) {
     return STOCKS.filter(([code]) => code.startsWith(q)).slice(0, 8);
   }
-  // 中文：比對名稱包含
   return STOCKS.filter(([, name]) => name.includes(q)).slice(0, 8);
 }
 
@@ -597,8 +601,6 @@ function acMove(dir) {
   acIndex = (acIndex + dir + items.length) % items.length;
   items[acIndex].classList.add('ac-active');
 }
-
-// 綁定輸入事件（覆蓋舊的）
 
 // ── TAB ──
 let currentTab = 'chat';
@@ -673,9 +675,12 @@ async function fetchStock(query) {
     });
   }
 
+  // ★ 名稱優先用 STOCKS 本地中文名，找不到才用 Yahoo 回傳
+  const localName = getLocalName(meta.symbol);
+
   return {
     symbol: meta.symbol,
-    name: meta.shortName||meta.longName||symbol,
+    name: localName || meta.shortName || meta.longName || symbol,
     price: meta.regularMarketPrice||0,
     prevClose: Math.round(prevCloseVal*100)/100,
     volume: meta.regularMarketVolume||0,
@@ -738,14 +743,12 @@ function calcScore(stock) {
   items.push({icon:absP>6?'⚠️':'✅',label:'波動風險',desc:absP>9?'接近漲跌停':absP>6?'波動偏大':absP>3?'波動稍大':'波動正常'});
   total+=s4;
 
-  // 5. 殖利率（25分）— ✨ 新增還原殖利率
+  // 5. 殖利率（25分）
   const cash=stock.autoCash||0;
   const stockDiv=stock.autoStock||0;
   let s5=0;let yieldDesc='無股利資料';
   if(cash>0&&stock.price>0){
     const y=cash/stock.price*100;
-    // 還原殖利率 = (現金股利 + 股票股利折現價) / 現價
-    // 股票股利元面值 ÷ 10 × 現價 = 每股配股市值
     const stockVal=stockDiv>0?(stockDiv/10)*stock.price:0;
     const restoreY=(cash+stockVal)/stock.price*100;
     if(y>=6)s5=25;
@@ -860,6 +863,11 @@ function addAnalysisMsg(stock,score,prevRecords){
   const simpleNote=score.verdict==='buy'?'今天表現不錯、量也夠，可以列入觀察，注意設好停損再進場。':score.verdict==='watch'?'狀況普通，建議再觀望幾天，等方向更明確再決定。':'目前動能偏弱，不急著進場，先看看再說。';
   const copyText=`【${stock.name}（${dc}）】\n收盤：${stock.price}　${chgSym}${score.change.toFixed(2)}（${score.pct.toFixed(2)}%）　前日：${stock.prevClose}\n評分：${score.total}/100　${score.verdictText}\n${score.items.map(it=>`${it.icon} ${it.label}：${it.desc}`).join('\n')}\n💬 ${simpleNote}`;
   const uid=dc+Date.now();
+  // ★ 名稱優先：watchList 手動覆蓋 > stock.name（已是本地中文名）
+  const displayName=(()=>{
+    const w=watchList.find(x=>x.symbol===stock.symbol);
+    return w?.manualName||stock.name.slice(0,16);
+  })();
   const d=document.createElement('div');d.className='msg-row bot';
   d.innerHTML=`
     <div class="msg-avatar">─</div>
@@ -867,7 +875,7 @@ function addAnalysisMsg(stock,score,prevRecords){
       <div class="msg-bubble">
         <div class="card-header">
           <span class="card-code">${dc}</span>
-          <span class="card-name">${(()=>{const w=watchList.find(x=>x.symbol===stock.symbol);return w?.manualName||stock.name.slice(0,16);})()}</span>
+          <span class="card-name">${displayName}</span>
         </div>
         ${prevHtml}
         <div class="price-row">
@@ -967,7 +975,9 @@ async function watchRefreshAll(){
   for(let i=0;i<watchList.length;i++){
     try{
       const s=await fetchStock(watchList[i].code);
+      // ★ 同步更新 name（fetchStock 已內建 getLocalName 優先）
       Object.assign(watchList[i],{
+        name:s.name,
         price:s.price,prevClose:s.prevClose,volume:s.volume,
         hi52:s.hi52,lo52:s.lo52,autoCash:s.autoCash,autoStock:s.autoStock,
         lastUpdate:new Date().toISOString()
@@ -1085,6 +1095,7 @@ function watchRenderTable(){
     const stockLabel=r.stockDiv>0?fmt(r.stockDiv)+(watchList.find(w=>w.symbol===r.symbol)?.manualStock!==null?' ✎':''):'─';
     const hi52Cls=r.price>=r.hi52*0.95?'t-hi':'t-nm';
     const lo52Cls=r.price<=r.lo52*1.05?'t-lo':'t-nm';
+    // ★ 名稱優先：manualName > name（已是本地中文名）
     const displayName=watchList.find(w=>w.symbol===r.symbol)?.manualName||r.name;
     const shortName=displayName.length>8?displayName.slice(0,7)+'…':displayName;
     return `<tr>
