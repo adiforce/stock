@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>聊天室</title>
+<title>股票聊天室</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -24,13 +24,13 @@
   #pinned-list,#history-list{list-style:none;padding:0 8px}
   #history-list{flex:1;overflow-y:auto}
 
-  .stock-item{display:flex;align-items:center;padding:9px 10px;border-radius:10px;cursor:pointer;transition:background .15s;gap:8px;margin-bottom:2px}
+  .stock-item{display:flex;align-items:center;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .15s;gap:6px;margin-bottom:2px}
   .stock-item:hover{background:var(--bg3)}
-  .stock-item .left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
-  .avatar{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;font-family:'JetBrains Mono',monospace}
-  .s-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .s-code{font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace}
-  .price-tag{font-size:12px;font-family:'JetBrains Mono',monospace;font-weight:600;flex-shrink:0}
+  .stock-item .left{display:flex;align-items:center;gap:8px;flex:1;min-width:0;overflow:hidden}
+  .avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+  .s-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .s-code{font-size:10px;color:var(--text2);font-family:'JetBrains Mono',monospace}
+  .price-tag{font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;flex-shrink:0;white-space:nowrap}
   .price-tag.up{color:var(--green)}.price-tag.down{color:var(--red)}.price-tag.flat{color:var(--text2)}
   .item-actions{display:flex;gap:4px;opacity:0;transition:opacity .15s}
   .stock-item:hover .item-actions{opacity:1}
@@ -119,8 +119,7 @@
 
 <div id="sidebar">
   <div id="sidebar-header">
-    <div class="logo">ST<span>OCK</span></div>
-    <span style="font-size:12px;color:var(--text2)">聊天室</span>
+    <div class="logo">📈 <span>聊天室</span></div>
   </div>
   <div class="section-label">📌 釘選</div>
   <ul id="pinned-list"></ul>
@@ -217,10 +216,11 @@ function calcScore(stock) {
 
   // 4. 幅度是否異常（超過9.5%可能漲跌停）
   const absP = Math.abs(pct);
-  const s4 = absP > 9 ? 5 : absP > 5 ? 18 : 30;
-  items.push({ icon: absP > 9 ? '⚠️' : absP > 5 ? '⚠️' : '✅', label: '波動風險', desc: absP > 9 ? '接近漲跌停，注意風險' : absP > 5 ? '波動偏大' : '波動正常' });
+  const s4 = absP > 9 ? 5 : absP > 7 ? 15 : 25;
+  items.push({ icon: absP > 9 ? '⚠️' : absP > 7 ? '⚠️' : '✅', label: '波動風險', desc: absP > 9 ? '接近漲跌停，注意風險' : absP > 7 ? '波動偏大' : '波動正常' });
   total += s4;
 
+  total = Math.min(total, 100);
   const verdict = total >= 75 ? 'buy' : total >= 50 ? 'watch' : 'pass';
   const verdictText = total >= 75 ? '積極考慮' : total >= 50 ? '持續觀察' : '暫不進場';
   return { items, total, verdict, verdictText, change, pct };
@@ -263,11 +263,12 @@ function renderList(id, stocks, pinned) {
     const displayCode = h.symbol.replace('.TW','').replace('.TWO','');
     const li = document.createElement('li');
     li.className = 'stock-item';
+    const shortN = h.name.length > 6 ? h.name.slice(0,4) + '…' : h.name;
     li.innerHTML = `
       <div class="left" onclick="quickSearch('${displayCode}')">
         <div class="avatar">${displayCode.slice(-2)}</div>
-        <div class="info">
-          <div class="s-name">${h.name}</div>
+        <div class="s-info">
+          <div class="s-name">${shortN}</div>
           <div class="s-code">${displayCode}</div>
         </div>
       </div>
@@ -358,7 +359,7 @@ function addAnalysisMsg(stock, score, prevRecords) {
       <div class="msg-bubble">
         <div class="card-header">
           <span class="card-code">${displayCode}</span>
-          <span class="card-name">${stock.name}</span>
+          <span class="card-name">${stock.name.length > 12 ? stock.name.slice(0,10) + "…" : stock.name}</span>
         </div>
         ${prevHtml}
         <div class="price-row">
