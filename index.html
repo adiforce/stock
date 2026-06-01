@@ -48,6 +48,10 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
 .status-dot.closed{background:var(--text3);box-shadow:none;animation:none}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .topbar-right{margin-left:auto;display:flex;gap:8px}
+.topbar-tabs{display:flex;gap:4px;margin-left:12px}
+.topbar-tab{background:none;border:1px solid var(--border);color:var(--text3);width:32px;height:28px;border-radius:7px;font-size:14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.topbar-tab.active{background:var(--bg3);border-color:var(--accent);color:var(--text)}
+.topbar-tab:hover:not(.active){border-color:var(--text3);color:var(--text2)}
 .top-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:7px;font-size:11px;cursor:pointer;transition:all .15s;font-family:'Noto Sans TC',sans-serif}
 .top-btn:hover{border-color:var(--red);color:var(--red)}
 #panel-chat{flex:1;display:flex;flex-direction:column;min-height:0}
@@ -208,6 +212,10 @@ table.wt td.t-acc{color:var(--t-green);font-size:11px}
       <div class="status-dot" id="status-dot"></div>
       <span id="market-status-text">─</span>
     </div>
+    <div class="topbar-tabs">
+      <button class="topbar-tab active" id="ttab-chat" onclick="switchTab('chat')">💬</button>
+      <button class="topbar-tab" id="ttab-watch" onclick="switchTab('watch')">👁</button>
+    </div>
     <div class="topbar-right">
       <button class="top-btn" id="clear-chat-btn" onclick="clearChat()">清除</button>
     </div>
@@ -295,6 +303,8 @@ function switchTab(tab) {
   currentTab = tab;
   document.getElementById('tab-chat-btn').classList.toggle('active', tab==='chat');
   document.getElementById('tab-watch-btn').classList.toggle('active', tab==='watch');
+  document.getElementById('ttab-chat').classList.toggle('active', tab==='chat');
+  document.getElementById('ttab-watch').classList.toggle('active', tab==='watch');
   document.getElementById('panel-chat').style.display = tab==='chat' ? 'flex' : 'none';
   document.getElementById('panel-watch').style.display = tab==='watch' ? 'flex' : 'none';
   document.getElementById('sidebar-chat').style.display = tab==='chat' ? 'block' : 'none';
