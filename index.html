@@ -10,7 +10,7 @@
   --bg:#0d0f14;--bg2:#13161e;--bg3:#1a1e2a;--border:#252a38;
   --accent:#4f8ef7;--accent2:#7c5cfc;--green:#3dd68c;--red:#f75f5f;
   --yellow:#f7c948;--text:#e2e6f0;--text2:#7a8299;--text3:#4a5068;
-  --bubble-user:#1e2540;--bubble-bot:#161a24;--radius:16px;
+  --bubble-user:#1e2540;--bubble-bot:#111418;--radius:16px;
   --t-bg:#020c02;--t-bg2:#041004;--t-bg3:#071a07;--t-border:#1a3a1a;
   --t-green:#00ff41;--t-green2:#00cc33;--t-green3:#004d00;--t-dim:#005500;
 }
@@ -69,29 +69,29 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
 .msg-time{font-size:10px;color:var(--text3);margin-top:3px;padding:0 3px}
 .msg-row.user .msg-time{text-align:right}
 .card-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.card-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);background:var(--bg3);padding:2px 7px;border-radius:5px}
-.card-name{font-size:16px;font-weight:700}
+.card-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:#4a5568;background:var(--bg3);padding:2px 7px;border-radius:5px}
+.card-name{font-size:16px;font-weight:700;color:#c8d0dc}
 .price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .price-main{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:600}
 .price-change{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600}
-.price-change.up{color:var(--green)}.price-change.down{color:var(--red)}.price-change.flat{color:var(--text2)}
+.price-change.up{color:#a85555}.price-change.down{color:#4a8c6a}.price-change.flat{color:var(--text2)}
 .price-prev{font-size:11px;color:var(--text2)}
 .score-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.score-num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--accent)}
+.score-num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:#7a9ec0}
 .score-label{font-size:12px;color:var(--text2)}
 .score-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
-.score-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width 1s cubic-bezier(.4,0,.2,1)}
+.score-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#5a6e8a,#7a9ec0);transition:width 1s cubic-bezier(.4,0,.2,1)}
 .verdict{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500;margin-bottom:14px}
-.verdict.buy{background:rgba(61,214,140,.15);color:var(--green);border:1px solid rgba(61,214,140,.3)}
-.verdict.watch{background:rgba(247,201,72,.15);color:var(--yellow);border:1px solid rgba(247,201,72,.3)}
-.verdict.pass{background:rgba(247,95,95,.15);color:var(--red);border:1px solid rgba(247,95,95,.3)}
+.verdict.buy{background:rgba(150,60,60,.1);color:#a85555;border:1px solid rgba(150,60,60,.2)}
+.verdict.watch{background:rgba(160,130,50,.1);color:#9a8040;border:1px solid rgba(160,130,50,.2)}
+.verdict.pass{background:rgba(50,120,80,.1);color:#4a8c6a;border:1px solid rgba(50,120,80,.2)}
 .score-table{width:100%;border-collapse:collapse;margin-bottom:12px}
 .score-table tr{border-bottom:1px solid var(--border)}
 .score-table tr:last-child{border-bottom:none}
-.score-table td{padding:7px 5px;font-size:12px;vertical-align:top}
+.score-table td{padding:7px 5px;font-size:12px;vertical-align:top;color:#9aa5b8}
 .score-table td:first-child{width:18px}
-.score-table td:nth-child(2){width:80px;color:var(--text2)}
-.simple-note{background:var(--bg3);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--text2);border-left:3px solid var(--accent);margin-bottom:9px}
+.score-table td:nth-child(2){width:80px;color:#6a7585}
+.simple-note{background:var(--bg3);border-radius:8px;padding:9px 12px;font-size:12px;color:#6a7585;border-left:3px solid #4a6070;margin-bottom:9px}
 .action-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:7px;font-size:11px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .15s}
 .action-btn:hover{border-color:var(--accent);color:var(--accent)}
 .prev-compare{font-size:11px;color:var(--text2);background:var(--bg3);border-radius:7px;padding:5px 10px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
