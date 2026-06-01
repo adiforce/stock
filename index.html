@@ -170,12 +170,13 @@ function updateMarketStatus() {
 updateMarketStatus();
 setInterval(updateMarketStatus, 30000);
 
-// ── Yahoo Finance API ──
+// ── Yahoo Finance API（透過 Cloudflare proxy 繞 CORS）──
+const PROXY = 'https://fragrant-resonance-093d.adiforcejava.workers.dev/?url=';
+
 async function fetchStock(query) {
-  // 台股代號加 .TW，數字開頭才加
   const symbol = /^\d+$/.test(query.trim()) ? query.trim() + '.TW' : query.trim().toUpperCase();
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=5d`;
-  const res = await fetch(url);
+  const target = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=5d`;
+  const res = await fetch(PROXY + encodeURIComponent(target));
   if (!res.ok) throw new Error('查無此股票');
   const data = await res.json();
   const result = data?.chart?.result?.[0];
