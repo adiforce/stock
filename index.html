@@ -284,8 +284,12 @@ body{flex-direction:column}
       <div class="status-dot" id="status-dot"></div>
       <span id="market-status-text">─</span>
     </div>
+    <div class="topbar-tabs">
+      <button class="topbar-tab active" id="ttab-chat" onclick="switchTab('chat')">💬</button>
+      <button class="topbar-tab" id="ttab-watch" onclick="switchTab('watch')">👁</button>
+    </div>
     <div class="topbar-right">
-      <button class="top-btn" id="clear-chat-btn" onclick="clearChat()">清除對話</button>
+      <button class="top-btn" id="clear-chat-btn" onclick="clearChat()">清除</button>
     </div>
   </div>
 
@@ -379,6 +383,8 @@ function switchTab(tab) {
   currentTab = tab;
   document.getElementById('tab-chat-btn').classList.toggle('active', tab==='chat');
   document.getElementById('tab-watch-btn').classList.toggle('active', tab==='watch');
+  document.getElementById('ttab-chat').classList.toggle('active', tab==='chat');
+  document.getElementById('ttab-watch').classList.toggle('active', tab==='watch');
   document.getElementById('panel-chat').style.display = tab==='chat' ? 'flex' : 'none';
   document.getElementById('panel-watch').style.display = tab==='watch' ? 'flex' : 'none';
   document.getElementById('sidebar-chat').style.display = tab==='chat' ? 'block' : 'none';
