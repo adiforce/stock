@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>咕咕聊天室</title>
+<title>聊天室</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -11,8 +11,8 @@
   --accent:#4f8ef7;--accent2:#7c5cfc;--green:#3dd68c;--red:#f75f5f;
   --yellow:#f7c948;--text:#e2e6f0;--text2:#7a8299;--text3:#4a5068;
   --bubble-user:#1e2540;--bubble-bot:#111418;--radius:16px;
-  --t-bg:#020c02;--t-bg2:#041004;--t-bg3:#071a07;--t-border:#1a3a1a;
-  --t-green:#00ff41;--t-green2:#00cc33;--t-green3:#004d00;--t-dim:#005500;
+  --t-bg:#050d05;--t-bg2:#081408;--t-bg3:#0c1c0c;--t-border:#1e3a1e;
+  --t-green:#5ab87a;--t-green2:#4a9e68;--t-green3:#1a3a28;--t-dim:#3a6a4a;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;height:100vh;height:100dvh;display:flex;overflow:hidden}
@@ -69,29 +69,29 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
 .msg-time{font-size:10px;color:var(--text3);margin-top:3px;padding:0 3px}
 .msg-row.user .msg-time{text-align:right}
 .card-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.card-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:#4a5568;background:var(--bg3);padding:2px 7px;border-radius:5px}
-.card-name{font-size:16px;font-weight:700;color:#c8d0dc}
+.card-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:#3a4455;background:var(--bg3);padding:2px 7px;border-radius:5px}
+.card-name{font-size:16px;font-weight:700;color:#aab0bc}
 .price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .price-main{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:600}
 .price-change{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600}
-.price-change.up{color:#a85555}.price-change.down{color:#4a8c6a}.price-change.flat{color:var(--text2)}
+.price-change.up{color:#8a4444}.price-change.down{color:#3d7558}.price-change.flat{color:var(--text2)}
 .price-prev{font-size:11px;color:var(--text2)}
 .score-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.score-num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:#7a9ec0}
+.score-num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:#607080}
 .score-label{font-size:12px;color:var(--text2)}
 .score-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
-.score-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#5a6e8a,#7a9ec0);transition:width 1s cubic-bezier(.4,0,.2,1)}
+.score-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#3a4e60,#506878);transition:width 1s cubic-bezier(.4,0,.2,1)}
 .verdict{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500;margin-bottom:14px}
-.verdict.buy{background:rgba(150,60,60,.1);color:#a85555;border:1px solid rgba(150,60,60,.2)}
-.verdict.watch{background:rgba(160,130,50,.1);color:#9a8040;border:1px solid rgba(160,130,50,.2)}
-.verdict.pass{background:rgba(50,120,80,.1);color:#4a8c6a;border:1px solid rgba(50,120,80,.2)}
+.verdict.buy{background:rgba(120,50,50,.08);color:#8a4444;border:1px solid rgba(120,50,50,.18)}
+.verdict.watch{background:rgba(130,110,40,.08);color:#7a6a30;border:1px solid rgba(130,110,40,.18)}
+.verdict.pass{background:rgba(40,100,65,.08);color:#3d7558;border:1px solid rgba(40,100,65,.18)}
 .score-table{width:100%;border-collapse:collapse;margin-bottom:12px}
 .score-table tr{border-bottom:1px solid var(--border)}
 .score-table tr:last-child{border-bottom:none}
-.score-table td{padding:7px 5px;font-size:12px;vertical-align:top;color:#9aa5b8}
+.score-table td{padding:7px 5px;font-size:12px;vertical-align:top;color:#7a8490}
 .score-table td:first-child{width:18px}
-.score-table td:nth-child(2){width:80px;color:#6a7585}
-.simple-note{background:var(--bg3);border-radius:8px;padding:9px 12px;font-size:12px;color:#6a7585;border-left:3px solid #4a6070;margin-bottom:9px}
+.score-table td:nth-child(2){width:80px;color:#555e6a}
+.simple-note{background:var(--bg3);border-radius:8px;padding:9px 12px;font-size:12px;color:#555e6a;border-left:3px solid #3a4a58;margin-bottom:9px}
 .action-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:7px;font-size:11px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .15s}
 .action-btn:hover{border-color:var(--accent);color:var(--accent)}
 .prev-compare{font-size:11px;color:var(--text2);background:var(--bg3);border-radius:7px;padding:5px 10px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
@@ -139,17 +139,17 @@ table.wt td{padding:9px 12px;text-align:right;color:#88aa88;border-right:1px sol
 table.wt td:first-child,table.wt td:nth-child(2){text-align:left}
 table.wt td:last-child{border-right:none}
 table.wt td.t-up{color:var(--t-green)}
-table.wt td.t-dn{color:#ff4444}
-table.wt td.t-nm{color:#88aa88}
+table.wt td.t-dn{color:#a05050}
+table.wt td.t-nm{color:#607060}
 table.wt td.t-hi{color:var(--t-green2);font-weight:600}
-table.wt td.t-lo{color:#cc3333}
+table.wt td.t-lo{color:#8a4040}
 table.wt td.t-acc{color:var(--t-green);font-size:11px}
 .t-code{color:var(--t-green);font-weight:600}
-.t-name{color:#aaccaa;font-size:11px;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.t-name{color:#708870;font-size:11px;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .t-edit{background:none;border:none;color:var(--t-dim);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;padding:0 3px;transition:color .15s}
 .t-edit:hover{color:var(--t-green2)}
 .t-del{background:none;border:none;color:var(--t-dim);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;padding:0 4px;transition:color .15s}
-.t-del:hover{color:#ff4444}
+.t-del:hover{color:#8a4040}
 .t-loading{color:var(--t-dim);font-size:11px;animation:blink 1s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .edit-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--t-bg2);border:1px solid var(--t-green2);border-radius:8px;padding:20px 24px;z-index:100;font-family:'JetBrains Mono',monospace;min-width:280px;box-shadow:0 0 30px rgba(0,255,65,.1)}
